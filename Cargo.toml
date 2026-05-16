@@ -1,0 +1,42 @@
+[package]
+name = "wasm_jpg"
+version = "0.1.0"
+edition = "2024"
+authors = ["Jerome David <programingjd@gmail.com>"]
+categories = ["wasm"]
+description = "esm modules for jpeg encoding, with sync and async (worker) version"
+keywords = ["wasm", "jpg", "jpeg", "esm"]
+license = "AGPL-3.0-only"
+repository = "https://github.com/packurl/wasm_jpg"
+include = [
+    "Cargo.toml", "src", "LICENSE", "README.md", "rust-toolchain.toml",
+    "jpg.d.ts", "jpg.mjs", "jpg.wasm",
+    "jpg_worker.d.ts", "jpg_worker.mjs", "jpg_worker_script.mjs",
+    "jpg_worker_script.js", "jpg_for_importScripts.js"
+]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies.zenjpeg]
+version = "0.8"
+default-features = false
+features = ["trellis", "yuv"]
+
+# build is broken with 0.9.23 for zenjpeg 0.8.3
+
+[dependencies.archmage]
+version = "=0.9.19"
+default-features = false
+features = []
+
+[dependencies.magetypes]
+version = "=0.9.19"
+default-features = false
+features = []
+
+[profile.release]
+debug = false
+opt-level = "s"
+lto = true
+codegen-units = 1
